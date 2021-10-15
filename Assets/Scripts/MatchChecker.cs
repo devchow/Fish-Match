@@ -1,8 +1,6 @@
-﻿//using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 public class MatchChecker
 {
@@ -38,9 +36,9 @@ public class MatchChecker
                Mathf.Abs(f1.Row - f2.Row) <= 1;
     }
 
-    public static IEnumerable<GameObject> GetPotentialmatches(FishArray fishes)
+    public static IEnumerable<GameObject> GetPotentialMatches(FishArray fishes)
     {
-        List<GameObject> matches = new List<GameObject>();
+		List<List<GameObject>> matches = new List<List<GameObject>>();
 
         for (int row = 0; row < GameVariables.Rows; row++)
         {
@@ -61,14 +59,10 @@ public class MatchChecker
                 if(matches6 != null) matches.Add(matches6);
 
                 if (matches.Count >= 3)
-                {
                     return matches[Random.Range(0, matches.Count - 1)];
-                }
 
                 if (row >= GameVariables.Rows / 2 && matches.Count > 0 && matches.Count <= 2)
-                {
                     return matches[Random.Range(0, matches.Count - 1)];
-                }
             }
         }
 
