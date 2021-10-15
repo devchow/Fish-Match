@@ -242,6 +242,69 @@ public class FishArray
         
         return collapseInfo;
     }
+
+    public IEnumerable<FishInfo> GetEmptyItemsOnColumn(int column)
+    {
+        List<FishInfo> emptyItems = new List<FishInfo>();
+
+        for (int row = 0; row < GameVariables.Rows; row++)
+        {
+            if (fishes[row, column] == null)
+            {
+                emptyItems.Add(new FishInfo(){Row = row, Column = column});
+            }
+        }
+
+        return emptyItems;
+    }
+
+    public MatchesInfo GetMatches(GameObject go)
+    {
+        MatchesInfo matchesInfo = new MatchesInfo();
+
+        // Horizontal Matches
+        var horizontalMatches = GetMatchesHorizontally(go);
+        if (ContainsDestroyWholeRowColumnBonus(horizontalMatches))
+        {
+            horizontalMatches = GetEntireRow(go);
+
+            if (!BonusTypeChecker.ContainsDestroyWholeRowColumn(matchesInfo.BonusesContained))
+            {
+                matchesInfo.BonusesContained = BonusType.DestroyWholeRowColumn;
+            }
+        }
+        
+        matchesInfo.AddObjectRange(horizontalMatches);
+        
+        // vertical Matches
+        var verticalMatches = GetMatchesVertically(go);
+        if (ContainsDestroyWholeRowColumnBonus(verticalMatches))
+        {
+            verticalMatches = GetEntireColumn(go);
+
+            if (!BonusTypeChecker.ContainsDestroyWholeRowColumn(matchesInfo.BonusesContained))
+            {
+                matchesInfo.BonusesContained = BonusType.DestroyWholeRowColumn;
+            }
+        }
+        
+        matchesInfo.AddObjectRange(verticalMatches);
+        
+        
+        return matchesInfo;
+    }
+
+    public IEnumerable<GameObject> GetMatches(IEnumerable<GameObject> gos)
+    {
+        List<GameObject> matches = new List<GameObject>();
+
+        foreach (var go in gos)
+        {
+           matches.AddRange(GetMatches(go).MatchedFish());
+        }
+
+        return matches.Distinct();
+    }
     
 } // FishArray
 

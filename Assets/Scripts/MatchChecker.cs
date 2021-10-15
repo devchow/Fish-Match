@@ -35,5 +35,40 @@ public class MatchChecker
         return (f1.Column == f2.Column || f1.Row == f2.Row) && Mathf.Abs(f1.Column - f2.Column) <= 1 &&
                Mathf.Abs(f1.Row - f2.Row) <= 1;
     }
-    
+
+    public static IEnumerable<GameObject> GetPotentialmatches(FishArray fishes)
+    {
+        List<GameObject> matches = new List<GameObject>();
+
+        return null;
+    }
+
+    public static List<GameObject> CheckHorizontal(int row, int column, FishArray fishes)
+    {
+        if (column <= GameVariables.Columns - 2)
+        {
+            
+        }
+    }
+
 } // Match Checker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
