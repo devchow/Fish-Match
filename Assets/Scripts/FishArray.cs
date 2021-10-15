@@ -159,5 +159,69 @@ public class FishArray
         return matches.Distinct();  // return non-duplicate matches
         
     } // Get-Matches-Vertically
+
+    private bool ContainsDestroyWholeRowColumnBonus(IEnumerable<GameObject> matches)
+    {
+        if (matches.Count() >= GameVariables.MinMatches) //////////////////////////// .Count | .Count()
+        {
+            foreach (var item in matches)
+            {
+                if (BonusTypeChecker.ContainsDestroyWholeRowColumn(item.GetComponent<Fish>().Bonus))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    private IEnumerable<GameObject> GetEntireRow(GameObject go)
+    {
+        List<GameObject> matches = new List<GameObject>();
+        int row = go.GetComponent<Fish>().Row;
+        for (int column = 0; column < GameVariables.Columns; column++)
+        {
+            matches.Add(fishes[row, column]);
+        }
+
+        return matches;
+        
+    } // Get-Entire-Row
+    
+    private IEnumerable<GameObject> GetEntireColumn(GameObject go)
+    {
+        List<GameObject> matches = new List<GameObject>();
+        int column = go.GetComponent<Fish>().Column;
+        for (int row = 0; row < GameVariables.Columns; row++)
+        {
+            matches.Add(fishes[row, column]);
+        }
+
+        return matches;
+        
+    } // Get-Entire-Column
     
 } // FishArray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
