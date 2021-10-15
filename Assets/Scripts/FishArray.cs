@@ -201,6 +201,47 @@ public class FishArray
         return matches;
         
     } // Get-Entire-Column
+
+    public void Remove(GameObject item)
+    {
+        fishes[item.GetComponent<Fish>().Row, item.GetComponent<Fish>().Column] = null;
+    }
+
+    public AlteredFishInfo Collapse(IEnumerable<int> columns)
+    {
+        AlteredFishInfo collapseInfo = new AlteredFishInfo();
+
+        foreach (var column in columns)
+        {
+            for (int row = 0; row < GameVariables.Rows - 1; row++)
+            {
+                if (fishes[row, column] == null)
+                {
+                    for (int row2 = row + 1; row2 < GameVariables.Rows; row2++)
+                    {
+                        if (fishes[row2, column] != null)
+                        {
+                            fishes[row, column] = fishes[row2, column];
+                            fishes[row2, column] = null;
+
+                            if (row2 - row > collapseInfo.maxDistance)
+                            {
+                                collapseInfo.maxDistance = row2 - row;
+                            }
+
+                            fishes[row, column].GetComponent<Fish>().Row = row;
+                            fishes[row, column].GetComponent<Fish>().Column = column;
+
+                            collapseInfo.AddFish(fishes[row, column]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return collapseInfo;
+    }
     
 } // FishArray
 
